@@ -16,6 +16,7 @@ Welcome to Zeeve's documentation!
    ../cloud_authorization.md
    ../subscriptions.md
    ../rollups.md
+   ../zkSync.md
    ../api-endpoint.md
    ../Howtocreatemyfirstnetwork.md
    ../HyperledgerSawtooth.md
