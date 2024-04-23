@@ -44,53 +44,50 @@ Before you authorize your AWS account with Zeeve, you'll need following provide 
     
     ![img](./images/jsonpermissions.jpg)
 
-6. Write the Policy: 
+6. (Public Protocols IAM Policy) Write the Policy: 
 
 ```shell
 {
-   "Version": "2012-10-17",
-   "Statement": [
-       {
-           "Effect": "Allow",
-           "Action": [
-               "logs:CreateLogStream",
-               "logs:TagLogGroup",
-               "logs:DeleteLogGroup",
-               "logs:TagResource",
-               "logs:PutRetentionPolicy",
-               "logs:CreateLogGroup",
-               "logs:DeleteDestination",
-               "logs:TagResource",
-               "logs:ListTagsLogGroup"
-           ],
-           "Resource": [
-               "arn:aws:logs:*:ACCOUNTID:destination:*",
-               "arn:aws:logs:*:ACCOUNTID:log-group:*"
-           ]
-       },
-       {
-           "Effect": "Allow",
-           "Action": [
-               "logs:DescribeLogGroups",
-               "logs:DescribeDestinations"
-           ],
-           "Resource": "*"
-       },
-       {
-            "Effect": "Allow",
-            "Action": [
-                "iam:GetPolicyVersion",
-                "iam:GetPolicy",
-                "iam:GetUserPolicy",
-                "iam:ListAttachedUserPolicies",
-                "iam:ListUserPolicies",
-                "iam:GetUser"
-            ],
-            "Resource": [
-                "*"
-            ]
-        }
-   ]
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": "iam:PassRole",
+			"Resource": "arn:aws:iam::ACCOUNTID:role/vpc-logs-role-*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"iam:GetRole",
+				"iam:GetPolicyVersion",
+				"iam:GetPolicy",
+				"iam:DeletePolicy",
+				"iam:CreateRole",
+				"iam:DeleteRole",
+				"iam:AttachRolePolicy",
+				"iam:CreatePolicy",
+				"iam:ListInstanceProfilesForRole",
+				"iam:DetachRolePolicy",
+				"iam:ListPolicyVersions",
+				"iam:ListAttachedRolePolicies",
+				"iam:DeleteRolePolicy",
+				"iam:ListRolePolicies",
+				"iam:GetRolePolicy"
+			],
+			"Resource": [
+				"arn:aws:iam::ACCOUNTID:policy/*",
+				"arn:aws:iam::ACCOUNTID:role/*"
+			]
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"logs:*",
+				"servicequotas:GetServiceQuota"
+			],
+			"Resource": "*"
+		}
+	]
 }
 ```
 
@@ -113,93 +110,84 @@ Before you authorize your AWS account with Zeeve, you'll need following provide 
 
 ```shell
 {
-   "Version": "2012-10-17",
-   "Statement": [
-       {
-           "Effect": "Allow",
-           "Action": [
-               "elasticfilesystem:CreateFileSystem",
-               "eks:ListClusters",
-               "eks:DescribeAddonVersions",
-               "eks:RegisterCluster",
-               "eks:CreateCluster"
-           ],
-           "Resource": "*"
-       },
-       {
-           "Effect": "Allow",
-           "Action": [
-               "elasticfilesystem:DescribeMountTargets",
-               "elasticfilesystem:DeleteAccessPoint",
-               "elasticfilesystem:CreateMountTarget",
-               "elasticfilesystem:DescribeLifecycleConfiguration",
-               "elasticfilesystem:DescribeFileSystems",
-               "elasticfilesystem:DeleteMountTarget",
-               "elasticfilesystem:CreateAccessPoint",
-               "elasticfilesystem:DeleteFileSystem",
-               "elasticfilesystem:DescribeMountTargetSecurityGroups",
-               "elasticfilesystem:TagResource"
-           ],
-           "Resource": [
-               "arn:aws:elasticfilesystem:*:ACCOUNTID:file-system/*",
-               "arn:aws:elasticfilesystem:*:ACCOUNTID:access-point/*"
-           ]
-       },
-       {
-           "Effect": "Allow",
-           "Action": "eks:*",
-           "Resource": [
-               "arn:aws:eks:*:ACCOUNTID:cluster/*",
-               "arn:aws:eks:*:ACCOUNTID:nodegroup/*/*/*",
-               "arn:aws:eks:*:ACCOUNTID:fargateprofile/*/*/*",
-               "arn:aws:eks:*:ACCOUNTID:addon/*/*/*",
-               "arn:aws:eks:*:ACCOUNTID:identityproviderconfig/*/*/*/*"
-           ]
-       },
-       {
-           "Effect": "Allow",
-           "Action": [
-               "secretsmanager:CreateSecret",
-               "secretsmanager:UpdateSecret",
-               "secretsmanager:DescribeSecret",
-               "secretsmanager:GetSecretValue",
-               "secretsmanager:PutSecretValue",
-               "secretsmanager:ReplicateSecretToRegions",
-               "secretsmanager:TagResource"
-           ],
-           "Resource": [
-               "*"
-           ]
-       },
-       {
-           "Effect": "Allow",
-           "Action": [
-               "iam:GetRole",
-               "iam:UpdateAssumeRolePolicy",
-               "iam:GetPolicyVersion",
-               "iam:GetPolicy",
-               "iam:DeletePolicy",
-               "iam:CreateRole",
-               "iam:DeleteRole",
-               "iam:AttachRolePolicy",
-               "iam:CreateOpenIDConnectProvider",
-               "iam:CreatePolicy",
-               "iam:ListInstanceProfilesForRole",
-               "iam:PassRole",
-               "iam:DetachRolePolicy",
-               "iam:ListPolicyVersions",
-               "iam:ListAttachedRolePolicies",
-               "iam:ListRolePolicies",
-               "iam:GetOpenIDConnectProvider",
-               "iam:DeleteOpenIDConnectProvider"
-           ],
-           "Resource": [
-               "arn:aws:iam::ACCOUNTID:policy/*",
-               "arn:aws:iam::ACCOUNTID:oidc-provider/*",
-               "arn:aws:iam::ACCOUNTID:role/*"
-           ]
-       }
-   ]
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": [
+				"elasticfilesystem:DescribeBackupPolicy",
+				"cloudformation:ListStacks",
+				"secretsmanager:*",
+				"elasticfilesystem:CreateFileSystem",
+				"cloudformation:CreateStack",
+				"cloudformation:DeleteStack",
+				"elasticfilesystem:PutBackupPolicy",
+				"eks:*",
+				"cloudformation:DescribeStacks",
+				"logs:*"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"iam:UpdateAssumeRolePolicy",
+				"iam:GetPolicyVersion",
+				"elasticfilesystem:DeleteAccessPoint",
+				"iam:DeletePolicy",
+				"iam:CreateRole",
+				"iam:AttachRolePolicy",
+				"iam:ListInstanceProfilesForRole",
+				"iam:PassRole",
+				"iam:DetachRolePolicy",
+				"elasticfilesystem:DescribeLifecycleConfiguration",
+				"iam:ListAttachedRolePolicies",
+				"iam:ListAttachedUserPolicies",
+				"elasticfilesystem:DescribeFileSystems",
+				"elasticfilesystem:DeleteMountTarget",
+				"iam:ListRolePolicies",
+				"iam:DeleteOpenIDConnectProvider",
+				"elasticfilesystem:CreateAccessPoint",
+				"elasticfilesystem:DescribeMountTargets",
+				"iam:GetRole",
+				"iam:GetPolicy",
+				"iam:DeleteRole",
+				"iam:ListUserPolicies",
+				"elasticfilesystem:TagResource",
+				"iam:CreateOpenIDConnectProvider",
+				"iam:CreatePolicy",
+				"iam:CreateServiceLinkedRole",
+				"elasticfilesystem:CreateMountTarget",
+				"iam:ListPolicyVersions",
+				"iam:GetUserPolicy",
+				"iam:GetUser",
+				"iam:GetOpenIDConnectProvider",
+				"iam:GetRolePolicy",
+				"elasticfilesystem:DeleteFileSystem",
+				"elasticfilesystem:DescribeMountTargetSecurityGroups"
+			],
+			"Resource": [
+				"arn:aws:elasticfilesystem:*:ACCOUNTID:file-system/*",
+				"arn:aws:elasticfilesystem:*:ACCOUNTID:access-point/*",
+				"arn:aws:iam::ACCOUNTID:user/*",
+				"arn:aws:iam::ACCOUNTID:oidc-provider/*",
+				"arn:aws:iam::ACCOUNTID:role/*",
+				"arn:aws:iam::ACCOUNTID:policy/*",
+				"arn:aws:iam::aws:policy/*"
+			]
+		},
+		{
+			"Effect": "Allow",
+			"Action": "iam:ListPolicies",
+			"Resource": [
+				"arn:aws:iam::ACCOUNTID:user/*",
+				"arn:aws:iam::ACCOUNTID:oidc-provider/*",
+				"arn:aws:iam::ACCOUNTID:policy/*",
+				"arn:aws:iam::aws:policy/*",
+				"arn:aws:iam::ACCOUNTID:role/*"
+			]
+		}
+	]
 }
 ```
 
