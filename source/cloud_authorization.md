@@ -72,6 +72,9 @@ Before you authorize your AWS account with Zeeve, you'll need following provide 
 				"iam:ListAttachedRolePolicies",
 				"iam:DeleteRolePolicy",
 				"iam:ListRolePolicies",
+                "iam:ListGroupsForUser",
+                "iam:ListAttachedGroupPolicies",
+                "iam:ListUserPolicies",
 				"iam:GetRolePolicy"
 			],
 			"Resource": [
